@@ -5,8 +5,8 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var routes = require('./routes/index');
-var users = require('./routes/users');
-var serverRoute = require('./routes/server');
+var users = require('./routes/users'); 
+var mdb = require('./routes/mongodb');
 var fs = require('fs');
 var app = express();
 
@@ -63,6 +63,7 @@ app.use('/dcm/zk/*', routes);
 // app.use('/dcm/file/*', routes);  
 app.use('/dcm/*.html', routes); 
 app.use('/dcm/server/*', routes);
+app.use('/dcm/mdb/*', mdb);
 app.use('/users', users);
 
 // catch 404 and forward to error handler

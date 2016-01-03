@@ -1,7 +1,6 @@
 var express = require('express');
 var Zookeeper = require('node-zookeeper-client');  
-var path=require('path');
-var upload=require('./upload'); 
+var path=require('path'); 
 var fs = require('fs');
 var util = require('util');
 var router = express.Router();
@@ -11,7 +10,7 @@ var zk=new ZkClient(zkHost);
  
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('dcm/index.html', { title: 'node test22' });
+  res.redirect('dcm/index.html');
 });
  /* GET home page. */
  router.get('/dcm', function(req, res, next) { 
