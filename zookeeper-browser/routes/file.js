@@ -1,6 +1,7 @@
 var express = require('express');
 var fs = require('fs');
 var router = express.Router();
+//引用FileDao
 var fileDao = require('../service/file/fileDao');
 
 var multer = require('multer');
@@ -16,7 +17,7 @@ var storage = multer.diskStorage({
 });
 
 var upload = multer({ storage: storage, limits: { fieldSize: 100000000000 } });
-
+//上传文件服务
 router.post('/upload', upload.array('file', 20), function (req, res, next) {
     var files = req.files;
     console.log(files[0]);
@@ -29,7 +30,7 @@ router.post('/upload', upload.array('file', 20), function (req, res, next) {
 
     res.send('111');
 });
-
+//查询文件服务
 router.get('/find',function(req, res, next){
     // res.set({'Content-Type':'text/json','Encodeing':'utf8'});
     fileDao.find(function(err,result){
