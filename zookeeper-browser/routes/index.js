@@ -9,26 +9,18 @@ var zkHost = process.env.ZK_HOST || '192.168.116.135:2181';
 var zk=new ZkClient(zkHost);
  
 /* GET home page. */
-router.get('/', function(req, res, next) {
-  res.redirect('dcm/index.html');
+router.get('/', function(req, res, next) { 
+  res.redirect('index.html');
 });
- /* GET home page. */
- router.get('/dcm', function(req, res, next) { 
-     res.render('dcm/index.html', { title: 'node test22' });
-});
-
-
-//静态界面路由
-router.get('/dcm/*.html', function(req, res, next) {
-   var reqPath=req.path;
-  reqPath=reqPath.substr(1); 
-  res.render(reqPath, { title: 'node test22' });
+/* 静态页面路由*/
+ router.get('/*.html', function(req, res, next) { 
+      res.render('dcm'+req.path);
 });
 
  //rest服務
  //查询节点数据
- router.get('/dcm/zk/getData', function(req, res, next) { 
-    res.set({'Content-Type':'text/json','Encodeing':'utf8'});
+ router.get('/zk/getData', function(req, res, next) { 
+    // res.set({'Content-Type':'text/json','Encodeing':'utf8'});
      console.log("path to get data:"+(req.query.path || '/'));
     zk.client.getData(
     req.query.path || '/',
@@ -60,8 +52,8 @@ router.get('/dcm/*.html', function(req, res, next) {
  
 });
  //查询子节点
- router.get('/dcm/zk/getChildren', function(req, res, next) { 
-     res.set({'Content-Type':'text/json','Encodeing':'utf8'});  
+ router.get('/zk/getChildren', function(req, res, next) { 
+    //  res.set({'Content-Type':'text/json','Encodeing':'utf8'});  
      //如果没有传递父目录，则默认为根目录'/'
      var parenPath=req.query.id || '/';
     //开始查询子节点
@@ -95,8 +87,8 @@ router.get('/dcm/*.html', function(req, res, next) {
  
 
 //更新节点数据服务
- router.post('/dcm/zk/setData', function(req, res, next) { 
- 	 res.set({'Content-Type':'text/json','Encodeing':'utf8'});
+ router.post('/zk/setData', function(req, res, next) { 
+ 	//  res.set({'Content-Type':'text/json','Encodeing':'utf8'});
 	var path=req.body.path;
 	var data=req.body.data;  
 	var version=Number(req.body.version || -1); 
@@ -116,8 +108,8 @@ router.get('/dcm/*.html', function(req, res, next) {
     
 });
  // 创建节点服务
- router.post('/dcm/zk/create', function(req, res, next) { 
- 	 res.set({'Content-Type':'text/json','Encodeing':'utf8'});
+ router.post('/zk/create', function(req, res, next) { 
+ 	//  res.set({'Content-Type':'text/json','Encodeing':'utf8'});
 	var parent=req.body.parent || '/';
 	var name=req.body.name;
 	var data=req.body.data;    
@@ -144,8 +136,8 @@ router.get('/dcm/*.html', function(req, res, next) {
     
 });
 // 删除节点服务
- router.post('/dcm/zk/delete', function(req, res, next) { 
- 	 res.set({'Content-Type':'text/json','Encodeing':'utf8'});
+ router.post('/zk/delete', function(req, res, next) { 
+ 	//  res.set({'Content-Type':'text/json','Encodeing':'utf8'});
 	var path=req.body.path; 
 	var version=Number(req.body.version || -1); 
 	console.log("setData path:"+path); 
@@ -166,8 +158,8 @@ router.get('/dcm/*.html', function(req, res, next) {
 
  
   
-router.get('/dcm/server/stat', function(req, res, next) {
-   res.set({'Content-Type':'text/json','Encodeing':'utf8'});
+router.get('/server/stat', function(req, res, next) {
+//    res.set({'Content-Type':'text/json','Encodeing':'utf8'});
     var mem = process.memoryUsage();
      var format = function(bytes) {
            return (bytes/1024/1024).toFixed(2)+'MB';
@@ -183,10 +175,7 @@ router.get('/dcm/server/stat', function(req, res, next) {
 });
 
 
-
-// router.post('/dcm/file/upload', function(req, res, next){
-//      upload.uploadFile(req, res);
-// });
+ 
 
 
 

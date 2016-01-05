@@ -6,38 +6,10 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var routes = require('./routes/index');
 var users = require('./routes/users'); 
-var mdb = require('./routes/mongodb');
-var fs = require('fs');
+var fileRouter = require('./routes/file'); 
+var rootPath = require('./routes/rootPath');
 var app = express();
 
-var multer  = require('multer') ;
-var storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    console.log(file);
-    cb(null, './public/files')
-  },
-  filename: function (req, file, cb) {
-     console.log(file.fieldname);
-    cb(null, file.fieldname + '-' + Date.now())
-  }
-})
- 
-var upload = multer({ storage: storage,limits:{fieldSize:100000000000} });
-  
-
-app.post('/dcm/file/upload',upload.array('file',20), function (req, res, next) {
-  var files=req.files;
-  console.log(files[0]);
-  if(files)
-  {
-    for(var index=0;index<(files.length || 1);index++)
-    {
-      fs.renameSync(files[index].path,files[index].destination+'/'+files[index].originalname);
-    }
-  }
-  
-   res.send('111');
-});
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -53,19 +25,18 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
- 
-  
-app.use('/', routes);  
+app.use(function (req, res, next) {
+    // res.set({'Content-Type':'text/json','Encodeing':'utf8'});
+    next();
+});
+
+app.use('/', rootPath);  
 app.use('/dcm', routes); 
 //zk服务路由 
-app.use('/server', routes);
-app.use('/dcm/zk/*', routes); 
-// app.use('/dcm/file/*', routes);  
-app.use('/dcm/*.html', routes); 
-app.use('/dcm/server/*', routes);
-app.use('/dcm/mdb/*', mdb);
-app.use('/users', users);
-
+app.use('/file', fileRouter);  
+app.use('/users', users); 
+ 
+  
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
