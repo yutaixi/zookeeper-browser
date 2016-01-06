@@ -15,7 +15,7 @@ db.once('open', function (callback) {
 var File = mongoose.model('file', FileSchema);
 
 //保存
-function save(data) {
+function save(data,callback) {
     var file = new File(data);
     file.save(function (error) {
         if (error) {
@@ -26,7 +26,7 @@ function save(data) {
     });
 };
 //创建
-function create(data) {
+function create(data,callback) {
     // 增加记录 基于model操作 
     File.create(data, function (error) {
         if (error) {
@@ -40,9 +40,24 @@ function create(data) {
 function find(criteria,fields,options,callback){
     // mongoose find 
     File.find(criteria, fields, options,callback);
+}; 
+
+
+// 删除记录
+function remove(data,callback,err){ 
+    File.remove(data, function(error){
+    if(error) {
+        console.log(error);
+        err(error);
+    } else {
+        console.log('delete ok!');
+        callback();
+    } 
+    });
 };
 
 module.exports = { save: save, 
                    create: create,
-                   find:find
+                   find:find,
+                   remove:remove
                  };

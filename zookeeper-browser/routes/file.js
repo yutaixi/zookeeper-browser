@@ -37,6 +37,14 @@ router.get('/find',function(req, res, next){
         res.send(result);
     }); 
 });
-
+//删除
+router.post('/remove',  function (req, res, next) {
+    var id=req.body.id;
+    var condition={_id:id};
+    fileDao.remove(condition,function(){
+          res.send('1');
+    });
+  
+});
 
 module.exports = router;

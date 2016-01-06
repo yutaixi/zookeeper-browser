@@ -4,7 +4,7 @@ var path=require('path');
 var fs = require('fs');
 var util = require('util');
 var router = express.Router();
-var ZkClient = require('../zk.js').ZkClient;
+var ZkClient = require('../service/zookeeper/zk.js').ZkClient;
 var zkHost = process.env.ZK_HOST || '192.168.116.135:2181';
 var zk=new ZkClient(zkHost);
  
