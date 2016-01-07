@@ -96,6 +96,7 @@
   })();
 
   Dropzone = (function(_super) {
+      
     var extend, resolveOption;
 
     __extends(Dropzone, _super);
@@ -408,7 +409,7 @@
       return target;
     };
 
-    function Dropzone(element, options) {
+    function Dropzone(element, options) { 
       var elementOptions, fallback, _ref;
       this.element = element;
       this.version = Dropzone.version;
@@ -421,7 +422,7 @@
       }
       if (!(this.element && (this.element.nodeType != null))) {
         throw new Error("Invalid dropzone element.");
-      }
+      } 
       if (this.element.dropzone) {
         throw new Error("Dropzone already attached.");
       }
@@ -429,6 +430,7 @@
       this.element.dropzone = this;
       elementOptions = (_ref = Dropzone.optionsForElement(this.element)) != null ? _ref : {};
       this.options = extend({}, this.defaultOptions, elementOptions, options != null ? options : {});
+
       if (this.options.forceFallback || !Dropzone.isBrowserSupported()) {
         return this.options.fallback.call(this);
       }
@@ -463,6 +465,7 @@
           this.clickableElements = Dropzone.getElements(this.options.clickable, "clickable");
         }
       }
+      
       this.init();
     }
 
@@ -532,7 +535,9 @@
 
     Dropzone.prototype.init = function() {
       var eventName, noPropagation, setupHiddenFileInput, _i, _len, _ref, _ref1;
-      if (this.element.tagName === "form") {
+      debugger;
+      if (this.element.tagName === "form" || this.element.tagName === "FORM") {
+          debugger;
         this.element.setAttribute("enctype", "multipart/form-data");
       }
       if (this.element.classList.contains("dropzone") && !this.element.querySelector(".dz-message")) {
@@ -1433,7 +1438,7 @@
     return element.dropzone;
   };
 
-  Dropzone.autoDiscover = true;
+  Dropzone.autoDiscover = false;
 
   Dropzone.discover = function() {
     var checkElements, dropzone, dropzones, _i, _len, _results;

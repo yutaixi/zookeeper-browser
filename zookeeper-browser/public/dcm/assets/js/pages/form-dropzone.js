@@ -1,10 +1,13 @@
 $(document).ready(function () {
     /*------ Dropzone Init ------*/
-    $("#dropzone").dropzone({
+    $(".dropzone").dropzone({
         url: '/file/upload',
-        maxFilesize: 999
-
+        maxFilesize: 999,
+        afterUploaded:function(){
+            refreshFileList();
+        }
     });
+     
     refreshFileList();
 });
 

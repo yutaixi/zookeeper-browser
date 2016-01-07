@@ -3,12 +3,13 @@ var fs = require('fs');
 var router = express.Router();
 //引用FileDao
 var fileDao = require('../service/file/fileDao');
+var config=require('../config/config');
 
 var multer = require('multer');
 var storage = multer.diskStorage({
     destination: function (req, file, cb) {
         console.log(file);
-        cb(null, './public/files')
+        cb(null, config.file_upload_path)
     },
     filename: function (req, file, cb) {
         console.log(file.fieldname);

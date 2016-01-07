@@ -1,9 +1,10 @@
 var mongoose = require('mongoose');
 var express = require('express');
 var FileSchema=require('./FileSchema');
+var config=require('../../config/config');
 var router = express.Router();
-//连接
-var url = 'mongodb://dcm:dcm@192.168.116.135:27017/dcm';
+//连接 
+var url=config.mongodb_url;
 //连接mongodb
 mongoose.connect(url);
 var db = mongoose.connection;
